@@ -16,7 +16,7 @@ def setup_config():
 
     config = configparser.ConfigParser()
     config.read('config.properties')
-    return config['BOT']['TOKEN'], config['BOT']['SDXL_SOURCE']
+    return config['BOT']['TOKEN'], config['BOT']['SDXL_SOURCE'], config['BOT']['USE_PROXY'],config['BOT']['PROXY_URL']
 
 def generate_default_config():
     config = configparser.ConfigParser()
@@ -56,9 +56,14 @@ def create_collage(images):
     return collage_path
 
 # setting up the bot
-TOKEN, IMAGE_SOURCE = setup_config()
+TOKEN, IMAGE_SOURCE, USER_PROXY, PROXY_URL = setup_config()
 intents = discord.Intents.default() 
-client = discord.Client(intents=intents)
+
+if USER_PROXY:
+    client = discord.Client(intents=intents, proxy=PROXY_URL)
+else:
+    client = discord.Client(intents=intents)
+
 tree = discord.app_commands.CommandTree(client)
 
 if IMAGE_SOURCE == "LOCAL":
