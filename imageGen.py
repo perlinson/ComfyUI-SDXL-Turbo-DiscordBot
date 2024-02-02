@@ -113,7 +113,9 @@ async def generate_images(prompt: str,negative_prompt: str):
           workflow[node]["inputs"]["text"] = negative_prompt
     if(rand_seed_nodes[0] != ''):
       for node in rand_seed_nodes:
-          workflow[node]["inputs"]["seed"] = random.randint(0,999999999999999)
+          if not "noise_seed" in workflow[node]["inputs"]:
+            workflow[node]["inputs"]["seed"] = random.randint(0,999999999999999)
+          workflow[node]["inputs"]["noise_seed"] = random.randint(0,999999999999999)
 
     images = await generator.get_images(workflow)
     await generator.close()
