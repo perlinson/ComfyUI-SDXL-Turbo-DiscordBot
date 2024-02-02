@@ -1,11 +1,13 @@
 # SDXL-Turbo-DiscordBot
 
 
-**SDXL-Turbo-DiscordBot** is a Discord bot designed specifically for image generation using the renowned SDXL 1.0 model. It's inspired by the features of the Midjourney Discord bot, offering capabilities like text-to-image generation, variations in outputs, and the ability to upscale these outputs for enhanced clarity.
+**SDXL-Turbo-DiscordBot** is a Discord bot designed specifically for image generation using the renowned SDXL-Turbo 1.0 fp16 model. It's inspired by the features of the Midjourney Discord bot, offering capabilities like text-to-image generation, variations in outputs, and the ability to upscale these outputs for enhanced clarity.
 
 <div align="center">
-  
-[![Support my work](https://i.imgur.com/NOoWZ8G.png)](https://ko-fi.com/dab_bot)
+
+Support Author of SDXL-DiscrodBot work,Not me
+
+[![Support Author of SDXL-DiscrodBot work](https://i.imgur.com/NOoWZ8G.png)](https://ko-fi.com/dab_bot)
 
 </div>
 
@@ -27,7 +29,7 @@
 ## Quick Start
 
 ### 1. **Download & Extract**
-- [Download the latest executable](https://github.com/perlinson/ComfyUI-SDXL-DiscordBot/releases) suitable for your OS.
+- [Download the latest executable](https://github.com/perlinson/ComfyUI-SDXL-Turbo-DiscordBot/releases) suitable for your OS.
 - Extract the zip file to your desired location.
 
 ### 2. **Configuration**
