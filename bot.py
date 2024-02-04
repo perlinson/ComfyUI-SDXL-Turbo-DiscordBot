@@ -87,7 +87,7 @@ class ImageButton(discord.ui.Button):
 
 
 class Buttons(discord.ui.View):
-    def __init__(self, prompt, negative_prompt, images, *, timeout=180):
+    def __init__(self, prompt, negative_prompt, images, *, timeout=None):
         super().__init__(timeout=timeout)
         self.prompt = prompt
         self.negative_prompt = negative_prompt
