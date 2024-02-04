@@ -53,7 +53,16 @@ Support Author of SDXL-DiscrodBot work,Not me
 
 ### 4. **Generate the App**
 - navigate to the root directory
-- run `pyinstaller pyinstaller .\bot.py  -i favicon.ico --onefile` to generate the executable.
+
+**For windows:**
+- run `pyinstaller .\bot.py  -i favicon.ico --onefile`
+
+**For mac:**
+- run `pyinstaller --windowed .\bot.py  -i favicon.ico --onefile`
+
+**For linux:**
+- run `pyinstaller .\bot.py  -i favicon.ico --onefile`
+
 
 ### 5. **Run the App**
 - Double-click on `SDXL-Bot.exe` to launch.

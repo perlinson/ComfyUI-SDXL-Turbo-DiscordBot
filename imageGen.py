@@ -10,6 +10,10 @@ import configparser
 import os
 import tempfile
 import requests
+import argparse
+import shlex
+
+
 
 # Read the configuration
 config = configparser.ConfigParser()
@@ -93,6 +97,32 @@ class ImageGenerator:
         if self.ws:
             await self.ws.close()
 
+def parsePrompt(prompt: str):
+    # 这是必须被解析的命令行参数字符串
+    # prompt = "a cute cat --images=4"
+
+    # 使用 shlex.split 来正确地拆分参数字符串（保留命令行参数格式不变）
+    arguments = shlex.split(prompt)
+
+    # 创建一个 ArgumentParser 对象
+    parser = argparse.ArgumentParser(description='Generate images.')
+
+    # 定义命令行参数
+    # 添加了一个 `prompt` 参数来处理 "a tiger" 部分，使用 nargs='+' 来接收全部单词
+    parser.add_argument('prompt', nargs='+', help='Text to describe the image content')
+    parser.add_argument('--images', type=int, default=1, help='Number of images to generate.')
+
+    # 解析提供的参数列表
+    args = parser.parse_args(arguments)
+
+    # prompt 是一个列表，所以我们需要将单词合并成一个字符串
+    text_for_search = ' '.join(args.prompt)
+
+    # 输出解析后的参数
+    print(f"Text for image search: {text_for_search}")
+    print(f"Number of images requested: {args.images}")
+    return text_for_search,args
+
 async def generate_images(prompt: str,negative_prompt: str):
     with open(text2img_config, 'r') as file:
       workflow = json.load(file)
@@ -100,14 +130,22 @@ async def generate_images(prompt: str,negative_prompt: str):
     generator = ImageGenerator()
     await generator.connect()
 
+    output_node = config.get('LOCAL_TEXT2IMG', 'OUTPUT_NODES').split(',')
     prompt_nodes = config.get('LOCAL_TEXT2IMG', 'PROMPT_NODES').split(',')
     neg_prompt_nodes = config.get('LOCAL_TEXT2IMG', 'NEG_PROMPT_NODES').split(',')
     rand_seed_nodes = config.get('LOCAL_TEXT2IMG', 'RAND_SEED_NODES').split(',') 
+    
+    text_for_search,args = parsePrompt(prompt)
+
+    for node in output_node:
+        if not "noise_seed" in workflow[node]["inputs"]:
+            workflow[node]["inputs"]["batch_size"] = args.images
+
 
     # Modify the prompt dictionary
     if(prompt != None and prompt_nodes[0] != ''):
       for node in prompt_nodes:
-          workflow[node]["inputs"]["text"] = prompt
+          workflow[node]["inputs"]["text"] = text_for_search
     if(negative_prompt != None and neg_prompt_nodes[0] != ''):
       for node in neg_prompt_nodes:
           workflow[node]["inputs"]["text"] = negative_prompt
