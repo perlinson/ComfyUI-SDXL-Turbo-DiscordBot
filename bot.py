@@ -59,7 +59,7 @@ def create_collage(images):
 TOKEN, IMAGE_SOURCE, USER_PROXY, PROXY_URL = setup_config()
 intents = discord.Intents.default() 
 
-if USER_PROXY:
+if USER_PROXY == "True":
     client = discord.Client(intents=intents, proxy=PROXY_URL)
 else:
     client = discord.Client(intents=intents)
