@@ -138,8 +138,7 @@ async def generate_images(prompt: str,negative_prompt: str):
     text_for_search,args = parsePrompt(prompt)
 
     for node in output_node:
-        if not "noise_seed" in workflow[node]["inputs"]:
-            workflow[node]["inputs"]["batch_size"] = args.images
+        workflow[node]["inputs"]["batch_size"] = args.images
 
 
     # Modify the prompt dictionary
@@ -174,14 +173,22 @@ async def generate_alternatives(image: Image.Image, prompt: str, negative_prompt
     generator = ImageGenerator()
     await generator.connect()
 
+    output_node = config.get('LOCAL_IMG2IMG', 'OUTPUT_NODES').split(',')
     prompt_nodes = config.get('LOCAL_IMG2IMG', 'PROMPT_NODES').split(',')
     neg_prompt_nodes = config.get('LOCAL_IMG2IMG', 'NEG_PROMPT_NODES').split(',')
     rand_seed_nodes = config.get('LOCAL_IMG2IMG', 'RAND_SEED_NODES').split(',') 
     file_input_nodes = config.get('LOCAL_IMG2IMG', 'FILE_INPUT_NODES').split(',') 
 
+    text_for_search,args = parsePrompt(prompt)
+
+
+    for node in output_node:
+        workflow[node]["inputs"]["amount"] = args.images
+
+
     if(prompt != None and prompt_nodes[0] != ''):
       for node in prompt_nodes:
-          workflow[node]["inputs"]["text"] = prompt
+          workflow[node]["inputs"]["text"] = text_for_search
     if(negative_prompt != None and neg_prompt_nodes[0] != ''):
       for node in neg_prompt_nodes:
           workflow[node]["inputs"]["text"] = negative_prompt
