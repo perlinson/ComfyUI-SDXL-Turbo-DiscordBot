@@ -110,7 +110,7 @@ def parsePrompt(prompt: str):
     # 定义命令行参数
     # 添加了一个 `prompt` 参数来处理 "a tiger" 部分，使用 nargs='+' 来接收全部单词
     parser.add_argument('prompt', nargs='+', help='Text to describe the image content')
-    parser.add_argument('--images', type=int, default=1, help='Number of images to generate.')
+    parser.add_argument('--images', type=int, default=4, help='Number of images to generate.')
 
     # 解析提供的参数列表
     args = parser.parse_args(arguments)
@@ -138,6 +138,8 @@ async def generate_images(prompt: str,negative_prompt: str):
     text_for_search,args = parsePrompt(prompt)
 
     for node in output_node:
+        if not "amount" in workflow[node]["inputs"]:
+            workflow[node]["inputs"]["batch_size"] = args.images
         workflow[node]["inputs"]["batch_size"] = args.images
 
 

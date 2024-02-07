@@ -10,63 +10,33 @@
   },
   "2": {
     "inputs": {
-      "text": "",
-      "clip": [
-        "1",
-        1
+      "amount": 4,
+      "image": [
+        "37:0",
+        0
       ]
     },
-    "class_type": "CLIPTextEncode",
+    "class_type": "RepeatImageBatch",
     "_meta": {
-      "title": "CLIP Text Encode (Prompt)"
+      "title": "RepeatImageBatch"
     }
   },
   "3": {
     "inputs": {
-      "text": "",
-      "clip": [
-        "1",
-        1
-      ]
-    },
-    "class_type": "CLIPTextEncode",
-    "_meta": {
-      "title": "CLIP Text Encode (Prompt)"
-    }
-  },
-  "4": {
-    "inputs": {
-      "seed": 415888639653104,
-      "steps": 2,
-      "cfg": 8,
-      "sampler_name": "dpmpp_2s_ancestral",
-      "scheduler": "karras",
-      "denoise": 0.5,
-      "model": [
-        "1",
-        0
-      ],
-      "positive": [
-        "2",
-        0
-      ],
-      "negative": [
-        "3",
-        0
-      ],
-      "latent_image": [
-        "10",
+      "filename_prefix": "final_output",
+      "images": [
+        "44:0",
         0
       ]
     },
-    "class_type": "KSampler",
+    "class_type": "SaveImage",
     "_meta": {
-      "title": "KSampler"
+      "title": "Save Image"
     }
   },
-  "5": {
+  "37:0": {
     "inputs": {
-      "image": "sdxl_refiner_prompt_example.png",
+      "image": "final_output_00401_.png",
       "upload": "image"
     },
     "class_type": "LoadImage",
@@ -74,10 +44,36 @@
       "title": "Load Image"
     }
   },
-  "6": {
+  "42:0": {
+    "inputs": {
+      "text": "a vibrant cat",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "42:1": {
+    "inputs": {
+      "text": "undefined",
+      "clip": [
+        "1",
+        1
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "CLIP Text Encode (Prompt)"
+    }
+  },
+  "37:1": {
     "inputs": {
       "pixels": [
-        "5",
+        "2",
         0
       ],
       "vae": [
@@ -90,10 +86,40 @@
       "title": "VAE Encode"
     }
   },
-  "7": {
+  "42:2": {
+    "inputs": {
+      "seed": 764194896119576,
+      "steps": 2,
+      "cfg": 1.0,
+      "sampler_name": "euler_ancestral",
+      "scheduler": "normal",
+      "denoise": 1.0,
+      "model": [
+        "1",
+        0
+      ],
+      "positive": [
+        "42:0",
+        0
+      ],
+      "negative": [
+        "42:1",
+        0
+      ],
+      "latent_image": [
+        "37:1",
+        0
+      ]
+    },
+    "class_type": "KSampler",
+    "_meta": {
+      "title": "KSampler"
+    }
+  },
+  "44:0": {
     "inputs": {
       "samples": [
-        "4",
+        "42:2",
         0
       ],
       "vae": [
@@ -106,37 +132,16 @@
       "title": "VAE Decode"
     }
   },
-  "8": {
+  "44:1": {
     "inputs": {
-      "filename_prefix": "final_output",
       "images": [
-        "7",
+        "44:0",
         0
       ]
     },
-    "class_type": "SaveImage",
+    "class_type": "PreviewImage",
     "_meta": {
-      "title": "Save Image"
-    }
-  },
-  "10": {
-    "inputs": {
-      "amount": 4,
-      "samples": [
-        "6",
-        0
-      ]
-    },
-    "class_type": "RepeatLatentBatch",
-    "_meta": {
-      "title": "Repeat Latent Batch"
-    }
-  },
-  "11": {
-    "inputs": {},
-    "class_type": "ImageBatch",
-    "_meta": {
-      "title": "Batch Images"
+      "title": "Preview Image"
     }
   }
 }
